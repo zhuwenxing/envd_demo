@@ -1,0 +1,26 @@
+name: Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the Docker image
+        run: docker build . -t test
+      - name: Show the image
+        run: docker images ps -a
+  test-envd:
+   runs-on: ubuntu-latest
+   steps:
+     - uses: actions/checkout@v2
+     - name: Set envd
+       run: |
+         pip3 install --pre --upgrade envd
+         envd bootstrap
+     - name: Build the image using envd
+       run: envd up
+     - name: Show the image
+       run: docker images ps -a

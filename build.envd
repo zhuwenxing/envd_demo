@@ -1,0 +1,48 @@
+def install_tools():
+    run(
+        [
+            'curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"',
+            "sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl",
+        ]
+    )
+    run(
+        [
+            'wget --no-check-certificate -qO- "https://get.helm.sh/helm-v3.8.1-linux-amd64.tar.gz" | tar --strip-components=1 -xz -C /usr/local/bin linux-amd64/helm'
+        ]
+    )
+    run([
+        "wget https://github.com/mikefarah/yq/releases/download/v4.24.5/yq_linux_amd64 -O /usr/bin/yq",
+        "chmod +x /usr/bin/yq"
+    ])
+    run (
+        ['sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"']
+    )
+    run(
+        [
+            "wget https://go.dev/dl/go1.18.4.linux-amd64.tar.gz && tar -C /usr/local -xzf go1.18.4.linux-amd64.tar.gz"
+        ]
+    )
+
+
+def build():
+    base(os="ubuntu18.04", language="python3.8")
+    install.python_packages(
+        requirements = "./requirements.txt"
+    )
+    install.apt_packages(
+        name=[
+            "wget",
+            "apt-transport-https",
+            "gnupg",
+            "ca-certificates",
+            "python3.8-dbg",
+            "jq",
+            "curl",
+            "build-essential",
+            "git",
+            "vim"
+        ]
+    )
+    shell("zsh")
+    install_tools()
+    runtime.environ(env={"PATH":"$PATH:/usr/local/go/bin"})
