@@ -48,8 +48,8 @@ apscheduler==3.7.0
 pyhelm==2.14.5
 timeout_decorator==0.5.0
 
-# requests==2.26.0
-# urllib3==1.25.11
-# PyMySQL==1.0.2
-# influxdb-client==1.21.0
-# influxdb==5.3.1
+requests==2.26.0
+urllib3==1.25.11
+PyMySQL==1.0.2
+influxdb-client==1.21.0
+influxdb==5.3.1

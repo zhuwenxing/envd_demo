@@ -9,9 +9,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the Docker image
-        run: docker build . -t test:dev
+        run: |
+          docker build . -t test:dev
       - name: Show the image
         run: docker images ps -a
+      - name: Build the second Docker image
+        run: |
+          sed -i 's/requirements.txt/requirements_dev.txt/g' Dockerfile
+          docker build . -t test:dev-2
+      - name: Show the second image
+        run: docker images ps -a
+  
   test-envd:
    runs-on: ubuntu-latest
    steps:
@@ -23,4 +31,11 @@ jobs:
      - name: Build the image using envd
        run: envd build -t test:dev
      - name: Show the image
+       run: docker images ps -a
+
+     - name: Build the second image using envd
+       run: |
+         sed -i 's/requirements.txt/requirements_dev.txt/g' build.envd
+         envd build -t test:dev-2
+     - name: Show the second image
        run: docker images ps -a
