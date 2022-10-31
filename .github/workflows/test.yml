@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the Docker image
-        run: docker build . -t test
+        run: docker build . -t test:dev
       - name: Show the image
         run: docker images ps -a
   test-envd:
@@ -21,6 +21,6 @@ jobs:
          pip3 install --pre --upgrade envd
          envd bootstrap
      - name: Build the image using envd
-       run: envd up
+       run: envd build -t test:dev
      - name: Show the image
        run: docker images ps -a
