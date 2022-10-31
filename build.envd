@@ -45,4 +45,3 @@ def build():
     )
     shell("zsh")
     install_tools()
-    runtime.command(env={"PATH":"$PATH:/usr/local/go/bin"})
